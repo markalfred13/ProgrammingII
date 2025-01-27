@@ -1,0 +1,92 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#define MAX 10
+#define DELI -101
+
+void display(int arr[]){
+    printf("{");
+    for(int i = 0; arr[i] != DELI; ++i){
+        printf("%d", arr[i]);
+        if(arr[i+1] != DELI){
+            printf(", ");
+        }
+    }
+    printf("}\n");
+}
+int *getCombined(int original[], int secondOriginal[]){
+    int temp[MAX];
+    int count = 0;
+    
+    for(int i = 0; original[i] != DELI; ++i){
+        if(original[i] > 0){
+            temp[count++] = original[i];
+        }
+    }
+    
+    for(int i = 0; secondOriginal[i] != DELI; ++i){
+        if(original[i] > 0){
+            temp[count++] = original[i];
+        }
+    }
+    
+    temp[count++] = DELI;
+    int *combined = malloc(sizeof(int) * count);
+    memcpy(combined, temp, sizeof(int) * count);
+    
+    return combined;
+}
+// int *getPositive(int original[], int count, int *pos_count){
+//     int temp[count];
+//     *pos_count = 0; 
+//     for(int i = 0; i < count; ++i){
+//         if(original[i] > 0){
+//             temp[(*pos_count)++] = original[i];
+//         }
+//     }
+//     int *positive = malloc(sizeof(int) * (*pos_count));
+
+//     memcpy(positive, temp, sizeof(int) * (*pos_count));
+
+//     return positive;
+// }
+int *getPositive(int original[]){
+    int temp[MAX];
+    int count = 0;
+    
+    for(int i = 0; original[i] != DELI; ++i){
+        if(original[i] > 0){
+            temp[count++] = original[i];
+        }
+    }
+    temp[count++] = DELI;
+    int *positive = malloc(sizeof(int) * count);
+    memcpy(positive, temp, sizeof(int) * count);
+    
+    return positive;
+}
+int main(){
+    int myArray[MAX] = {-1, 4, 5, 2, -7, DELI};
+    int secondArray[MAX] = {4, 5, -1, DELI};
+    int finalArray[MAX]; 
+    int count = 5;
+    int pCount = 0;
+    int *pos;
+
+    printf("Original: ");
+    display(myArray);  
+    printf("Positive: ");
+    pos = getPositive(myArray); 
+    display(pos); 
+    printf("Second Original: ");
+    display(secondArray);
+     printf("Second Positive: ");
+    pos = getPositive(secondArray); 
+    display(pos); 
+    
+    printf("Combined: ");
+    pos = getCombined(myArray, secondArray);
+    display(pos);
+    free(pos);
+    return 0;
+}
