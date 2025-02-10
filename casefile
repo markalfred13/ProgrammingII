@@ -1,0 +1,252 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include "myheader.h"
+int main(){
+    String menuChoice[10] = {"Insert Front", "Insert Rear", "Insert at", "Insert Sorted", "Delete Front", "Delete Rear", "Delete Item", "Delete All Item", "Search", "Display"};
+
+
+    int choice, value;
+    int myArray[LENGTH];
+    int count = 0;
+    int pos = 0;
+
+   
+    do {
+        system("CLS");
+        for (int i = 0; i < 10; i++) {  
+        printf("[%d] %s\n", i + 1, menuChoice[i]);
+        }
+
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        if (choice >= 1 && choice <= 10) {
+            printf("You chose: %s\n", menuChoice[choice - 1]);
+        }
+
+        switch (choice) {
+            case 1: // Insert Front
+                printf("Enter item to insert: ");
+                scanf("%d", &value);
+                insertFront(myArray, &count, value);
+                display(myArray, count);
+                break;
+            case 2: // Insert Rear
+                printf("Enter item to insert at rear: ");
+                scanf("%d", &value);
+                insertRear(myArray, &count, value);
+                display(myArray, count);
+                break;
+            case 3: // Insert at
+                printf("Enter item to insert: ");
+                scanf("%d", &value);
+                printf("Enter position: ");
+                scanf("%d", &pos);
+                insertAt(myArray, &count, value, pos);
+                display(myArray, count);
+                break;
+
+            case 4: // Insert Sorted
+                printf("Enter item to insert: ");
+                scanf("%d", &value);
+                insertSorted(myArray, &count, value);
+                display(myArray, count);
+                break;
+            
+             case 5: // Delete Front
+                deleteFront(myArray, &count);
+                display(myArray, count);
+                break;
+
+            case 6: // Delete Rear
+                deleteRear(myArray, &count);
+                display(myArray, count);
+                break;
+            
+            case 7: // Delete Item
+                printf("Enter item to delete: ");
+                scanf("%d", &value);
+                deleteItem(myArray, &count, value);
+                display(myArray, count);
+                break;
+
+            case 8: // Delete All Item
+                printf("Enter item to delete: ");
+                scanf("%d", &value);
+                deleteAllItem(myArray, &count, value);
+                display(myArray, count);
+                break;
+
+            case 9: // Search
+            printf("Enter item to search: ");
+                scanf("%d", &value);
+            if (isFound(myArray, &count, value)) {
+            printf("Item found at position %d.\n", myArray[value - 1]);
+            } else {
+            printf("Item not found.\n");
+                }
+
+            case 10: // Display
+                display(myArray, count);
+                break;
+            case 0:
+                printf("Exiting program.\n");
+                break;
+            default:
+                printf("Invalid Choice\n");
+                break;
+        }
+        printf("\n");
+        system("PAUSE");
+    } while(choice != 0);
+
+    return 0;
+}
+
+// myheader.h file //
+#ifndef MYHEADER_H
+#define MYHEADER_H
+
+#include <stdbool.h>
+#define LENGTH 10
+
+typedef int X;
+typedef char String[20];
+
+
+void display(int array[], int count);
+bool insertFront(int array[], int *count, int item);
+bool insertRear(int array[], int *count, int item);
+bool insertAt(int array[], int *count, int item, int pos);
+bool insertSorted(int array[], int *count, int item);
+bool deleteFront(int array[], int *count);
+bool deleteRear(int array[], int *count);
+bool deleteItem(int array[], int *count, int item);
+bool deleteAllItem(int array[], int *count, int item);
+bool isFound(int array[], int *count, int item);
+#endif
+
+
+// myheader.c
+
+#include<stdio.h>
+#include<stdlib.h>
+#include <stdbool.h>
+#include "myheader.h"
+
+void display(int array[], int count){
+    printf("{");
+    for(int i = 0; i <count; i++){
+        printf("%d", array[i]);
+        if(i < count - 1){
+            printf(", ");
+        }
+    }
+    printf("}");
+}
+
+
+bool insertFront(int array[], int *count, int item){
+    if(*count >= LENGTH){
+        return false;
+    }
+    for(int i = *count; i > 0; --i){
+        array[i] = array[i-1];
+    }
+    array[0] = item;
+    (*count)++;
+    return true;
+}
+
+bool insertRear(int array[], int *count, int item) {
+    if (*count >= LENGTH) {
+        return false;
+    }
+    array[*count] = item;  
+    (*count)++;  
+    return true;
+}
+bool insertAt(int array[], int *count, int item, int pos) {
+    if (*count >= LENGTH || pos < 0 || pos > *count) {
+        return false;  
+    }
+    for (int i = *count; i > pos; i--) {
+        array[i] = array[i - 1];
+    }
+    array[pos] = item;  
+    (*count)++; 
+    return true;
+}
+
+
+bool insertSorted(int array[], int *count, int item) {
+    if (*count >= LENGTH) {
+        return false; 
+    }
+    int i = *count - 1;
+    while (i >= 0 && array[i] > item) {
+        array[i + 1] = array[i];
+        i--;
+    }
+
+    array[i + 1] = item;
+    (*count)++; 
+    return true;
+}
+
+bool deleteFront(int array[], int *count){
+    if(*count = 0){
+        (*count)--;
+        return true;
+    }
+    return false;
+}
+bool deleteRear(int array[], int *count){
+    if(*count > 0){
+        (*count)--;
+        return true;
+    }
+    return false;
+}
+
+bool deleteItem(int array[], int *count, int item) {
+    int found = false;
+    for (int i = 0; i < *count; i++) {
+        if (array[i] == item) {
+            found = true;
+            
+            for (int j = i; j < *count - 1; j++) {
+                array[j] = array[j + 1];
+            }
+            (*count)--;
+            break;  
+        }
+    }
+    return found;
+}
+
+bool deleteAllItem(int array[], int *count, int item) {
+    int found = false;
+    for (int i = 0; i < *count;) {
+        if (array[i] == item) {
+            found = true;
+            for (int j = i; j < *count - 1; j++) {
+                array[j] = array[j + 1];
+            }
+            (*count)--; 
+        } else {
+            i++; 
+        }
+    }
+    return found;
+}
+
+bool isFound(int array[], int *count, int item) {
+    for (int i = 0; i < *count; i++) {
+        if (array[i] == item) {
+            return true;  
+        }
+    }
+    return false; 
+}
+
