@@ -1,52 +1,52 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 
-typedef struct student {
-        int id;
-        char name[20];
-        char program[6];
-        int year;
-        char sex;
-}Student, *StudentPtr, StudList[5];
+typedef struct {
+    int whole;
+    int num;
+    int den;
+} Fraction;
 
-void displayStudent(Student s);
+Fraction createFraction(Fraction f1, Fraction f2);
+void displayFraction(Fraction frac);
+Fraction addFraction(Fraction f1, Fraction f2);
 
 int main(){
-    Student stud1;
 
-    stud1.id = 1001;
-    strcpy(stud1.name, "Godwin");
-    strcpy(stud1.program, "PhDIT");
-    stud1.year = 3;
-    stud1.sex = 'M';
-   
-    Student stud2 = {1002, "Oseo", "BSIT", 4, 'M'};
-
-    // displayStudent(stud1);
-    // displayStudent(stud2);
-
-    Student studList[5];
-    studList[0] = stud1;
-    studList[1] = stud2;
-
-    studList[2].id = 3000;
-
-    strcpy(studList[2].name, "Boobie");
-    strcpy(studList[2].program, "BSCS");
-    studList[2].year = 1;
-    studList[2].sex = 'F';
-
-    displayStudent(studList[0]);
-    displayStudent(studList[1]);
-    displayStudent(studList[2]);
-    
+        Fraction frac1, frac2;
+        createFraction(frac1, frac2);
+        Fraction add(frac1, frac2);
+        
     return 0;
 }
 
-void displayStudent(Student s){
-    printf("%-15s : %d\n", "ID", s.id);
-    printf("%-15s : %s\n", "Name", s.name);
-    printf("%-15s : %s - %d\n", "Program & Year", s.program, s.year);
-    printf("%-15s : %s\n\n", "Sex", s.sex == 'M'? "Male" : "Female");
+Fraction add(Fraction f1, Fraction f2) {
+    Fraction result;
+    result.num = f1.num + f2.num*f1.den;
+    result.den = f1.den*f2.num;
+
+    return result;
+    }
+
+
+    Fraction createFraction(Fraction f1, Fraction f2){
+        printf("Enter the first numerator: ");
+        scanf("%d", &f1.num);
+
+        printf("Enter the first denumerator: ");
+        scanf("%d", &f1.den);
+
+        printf("\nEnter the second numerator: ");
+        scanf("%d", &f2.num);
+
+        printf("Enter the second denumerator: ");
+        scanf("%d", &f2.den);
+
+        displayFraction(f1);
+        displayFraction(f2);
+}
+
+void displayFraction(Fraction frac){
+    printf("%d / %d\n", frac.num, frac.den);
 }
