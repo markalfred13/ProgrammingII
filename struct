@@ -14,10 +14,11 @@ Fraction addFraction(Fraction f1, Fraction f2);
 
 int main(){
 
-        Fraction frac1, frac2;
-        createFraction(frac1, frac2);
-        Fraction add(frac1, frac2);
-        
+        Fraction f1 = createFraction(1,2);
+        Fraction f2;
+        f2 = createFraction(2,3);
+        Fraction f3 = addFraction(f1,f2);  
+             
     return 0;
 }
 
@@ -30,21 +31,13 @@ Fraction add(Fraction f1, Fraction f2) {
     }
 
 
-    Fraction createFraction(Fraction f1, Fraction f2){
-        printf("Enter the first numerator: ");
-        scanf("%d", &f1.num);
+    Fraction createFraction(int num, int den){
+        Fraction f;
 
-        printf("Enter the first denumerator: ");
-        scanf("%d", &f1.den);
+        f.num = num;
+        f.den = den;
 
-        printf("\nEnter the second numerator: ");
-        scanf("%d", &f2.num);
-
-        printf("Enter the second denumerator: ");
-        scanf("%d", &f2.den);
-
-        displayFraction(f1);
-        displayFraction(f2);
+        return f;
 }
 
 void displayFraction(Fraction frac){
